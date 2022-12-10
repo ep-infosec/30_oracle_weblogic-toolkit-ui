@@ -1,0 +1,222 @@
+<!--
+ Copyright (c) 2021, 2022, Oracle and/or its affiliates.
+ Licensed under The Universal Permissive License (UPL), Version 1.0 as shown at https://oss.oracle.com/licenses/upl/
+ -->
+<div class="wkt-content" id="projectSettings">
+  <h6><oj-bind-text value="[[labelMapper('title')]]"></oj-bind-text></h6>
+
+  <oj-bind-if test="[[isMac()]]">
+    <div class="oj-panel" id="kubectl-mac-only">
+      <h6 class="wkt-subheading"><oj-bind-text value="[[labelMapper('mac-environment-question')]]"></oj-bind-text></h6>
+      <div class="wkt-table-button-grid">
+        <oj-table id="extra-path-directories-table"
+                  class="wkt-paths-table"
+                  :aria-label="[[labelMapper('mac-path-table-aria-label')]]"
+                  data="[[extraPathDirectoriesDataProvider]]"
+                  display="grid"
+                  layout="fixed"
+                  horizontal-grid-visible="enabled"
+                  vertical-grid-visible="enabled"
+                  edit-mode="rowEdit"
+                  columns='[[extraPathColumnData]]'>
+          <template slot="rowTemplate" data-oj-as="row">
+            <tr>
+              <oj-bind-if test='[[row.mode=="navigation"]]'>
+                <td>
+                  <oj-bind-text value="[[row.data.value]]"></oj-bind-text>
+                </td>
+              </oj-bind-if>
+              <oj-bind-if test='[[row.mode=="edit"]]'>
+                <td>
+                  <oj-input-text value="{{row.data.value}}" class="editable">
+                  </oj-input-text>
+                </td>
+              </oj-bind-if>
+              <td>
+                <oj-button display="icons" chroming="borderless" on-oj-action="[[chooseExtraPathDirectory]]">
+                  <span slot="endIcon" class="oj-ux-ico-folder"></span>
+                  <oj-bind-text value="[[labelMapper('choose-path-tooltip')]]"></oj-bind-text>
+                </oj-button>
+              </td>
+              <td>
+                <oj-button display="icons" chroming="borderless" on-oj-action="[[row.data.remove]]">
+                  <span slot="endIcon" class="oj-ux-ico-trash"></span>
+                  <oj-bind-text value="[[labelMapper('delete-path-row-tooltip')]]"></oj-bind-text>
+                </oj-button>
+              </td>
+            </tr>
+          </template>
+          <template slot="chooseHeaderTemplate" data-oj-as="header">
+            <oj-button display="icons" chroming="borderless" disabled="true">
+              <span slot="endIcon"></span>
+              <oj-bind-text value="[[labelMapper('choose-path-tooltip')]]"></oj-bind-text>
+            </oj-button>
+          </template>
+          <template slot="headerTemplate" data-oj-as="header">
+            <oj-button display="icons" chroming="borderless" on-oj-action="[[handleExtraPathDirectoryAddRow]]">
+              <span slot="endIcon" class="oj-ux-ico-plus"></span>
+              <oj-bind-text value="[[labelMapper('add-path-row-tooltip')]]"></oj-bind-text>
+            </oj-button>
+          </template>
+        </oj-table>
+
+        <oj-button id="macosPathDirectoriesButton"
+                   chroming="callToAction"
+                   on-oj-action="[[showPathDirectories]]"
+                   :title="[[labelMapper('hints-macos-path-directories')]]">
+          <span>
+            <oj-bind-text value="[[labelMapper('button-macos-path-directories')]]"></oj-bind-text>
+          </span>
+        </oj-button>
+
+        <oj-table id="extra-environment-variables-table"
+                  class="wkt-env-vars-table"
+                  :aria-label="[[labelMapper('mac-env-var-table-aria-label')]]"
+                  data="[[extraEnvironmentVariablesDataProvider]]"
+                  display="grid"
+                  layout="fixed"
+                  horizontal-grid-visible="enabled"
+                  vertical-grid-visible="enabled"
+                  edit-mode="rowEdit"
+                  columns='[[extraEnvironmentVariablesColumnData]]'>
+          <template slot="rowTemplate" data-oj-as="row">
+            <tr>
+              <oj-bind-if test='[[row.mode=="navigation"]]'>
+                <td>
+                  <oj-bind-text value="[[row.data.name]]"></oj-bind-text>
+                </td>
+                <td>
+                  <oj-bind-text value="[[row.data.value]]"></oj-bind-text>
+                </td>
+              </oj-bind-if>
+              <oj-bind-if test='[[row.mode=="edit"]]'>
+                <td>
+                  <oj-input-text value="{{row.data.name}}" class="editable"></oj-input-text>
+                </td>
+                <td>
+                  <oj-input-text value="{{row.data.value}}" class="editable"></oj-input-text>
+                </td>
+              </oj-bind-if>
+              <td>
+                <oj-button display="icons" chroming="borderless" on-oj-action="[[row.data.remove]]">
+                  <span slot="endIcon" class="oj-ux-ico-trash"></span>
+                  <oj-bind-text value="[[labelMapper('delete-env-var-row-tooltip')]]"></oj-bind-text>
+                </oj-button>
+              </td>
+            </tr>
+          </template>
+          <template slot="headerTemplate" data-oj-as="header">
+            <oj-button display="icons" chroming="borderless" on-oj-action="[[handleExtraEnvironmentVariableAddRow]]">
+              <span slot="endIcon" class="oj-ux-ico-plus"></span>
+              <oj-bind-text value="[[labelMapper('add-env-var-row-tooltip')]]"></oj-bind-text>
+            </oj-button>
+          </template>
+        </oj-table>
+
+        <oj-button id="macosEnvironmentVariablesButton"
+                   chroming="callToAction"
+                   on-oj-action="[[showEnvironmentVariables]]"
+                   :title="[[labelMapper('hints-macos-environment-variables')]]">
+          <span>
+            <oj-bind-text value="[[labelMapper('button-macos-environment-variables')]]"></oj-bind-text>
+          </span>
+        </oj-button>
+      </div>
+      <p><oj-bind-text value="[[labelMapper('mac-environment-answer-message')]]"></oj-bind-text></p>
+    </div>
+  </oj-bind-if>
+
+  <div class="oj-panel">
+    <h6 class="wkt-subheading"><oj-bind-text value="[[labelMapper('credential-store-policy-question')]]"></oj-bind-text></h6>
+    <oj-form-layout max-columns="2" direction="row">
+      <oj-select-single label-hint="[[labelMapper('credential-store-policy-label')]]"
+                        value="{{project.settings.credentialStorePolicy.observable}}"
+                        data="{{credentialStorePoliciesDP}}"
+                        help.instruction="[[labelMapper('credential-store-policy-help')]]">
+      </oj-select-single>
+    </oj-form-layout>
+    <p><oj-bind-text value="[[labelMapper('credential-store-policy-answer-message')]]"></oj-bind-text></p>
+  </div>
+
+  <div class="oj-panel">
+    <h6 class="wkt-subheading"><oj-bind-text value="[[labelMapper('domain-location-question')]]"></oj-bind-text></h6>
+    <oj-form-layout max-columns="1" direction="row">
+      <oj-radioset label-hint=""
+                   value="{{project.settings.targetDomainLocation.observable}}"
+                   help.instruction="[[labelMapper('domain-location-help')]]">
+        <oj-bind-for-each data="[[targetDomainLocations]]">
+          <template>
+            <oj-option value="[[$current.data.value]]">
+              <oj-bind-text value="[[$current.data.label]]"></oj-bind-text>
+            </oj-option>
+          </template>
+        </oj-bind-for-each>
+      </oj-radioset>
+    </oj-form-layout>
+    <p><oj-bind-text value="[[getTargetDomainLocationMessage()]]"></oj-bind-text></p>
+  </div>
+
+  <div class="oj-panel">
+    <h6 class="wkt-subheading"><oj-bind-text value="[[labelMapper('wdt-target-type-question')]]"></oj-bind-text></h6>
+    <oj-form-layout max-columns="1" direction="row">
+      <oj-select-single label-hint="[[labelMapper('wdt-target-type-label')]]"
+                        value="{{project.settings.wdtTargetType.observable}}"
+                        data="{{wdtTargetTypesDP}}"
+                        help.instruction="[[labelMapper('wdt-target-type-help')]]">
+      </oj-select-single>
+    </oj-form-layout>
+    <p><oj-bind-text value="[[labelMapper('wdt-target-type-answer-message')]]"></oj-bind-text></p>
+  </div>
+
+  <div class="oj-panel">
+    <h6 class="wkt-subheading"><oj-bind-text value="[[labelMapper('java-directory-location-question')]]"></oj-bind-text></h6>
+    <oj-form-layout max-columns="1" direction="row">
+      <oj-input-text label-hint="[[labelMapper('java-home-label')]]"
+                     value="{{project.settings.javaHome.observable}}"
+                     help.instruction="[[labelMapper('java-home-help')]]">
+        <oj-button slot="end" display="icons" chroming="borderless" on-oj-action="[[chooseJavaHome]]">
+          <span slot="endIcon" class="oj-ux-ico-folder" role="img"></span>
+          <oj-bind-text value="[[labelMapper('java-home-tooltip')]]"></oj-bind-text>
+        </oj-button>
+      </oj-input-text>
+    </oj-form-layout>
+    <p><oj-bind-text value="[[javaDirectoryLocationAnswer]]"></oj-bind-text></p>
+  </div>
+
+  <oj-bind-if test="[[requiresOracleHome() === true]]">
+    <div class="oj-panel">
+      <h6 class="wkt-subheading"><oj-bind-text value="[[labelMapper('oracle-directory-location-question')]]"></oj-bind-text></h6>
+      <oj-form-layout max-columns="1" direction="row">
+        <oj-input-text label-hint="[[labelMapper('oracle-home-label')]]"
+                       value="{{project.settings.oracleHome.observable}}"
+                       help.instruction="[[labelMapper('oracle-home-help')]]">
+          <oj-button slot="end" display="icons" chroming="borderless" on-oj-action="[[chooseOracleHome]]">
+            <span slot="endIcon" class="oj-ux-ico-folder" role="img"></span>
+            <oj-bind-text value="[[labelMapper('oracle-home-tooltip')]]"></oj-bind-text>
+          </oj-button>
+        </oj-input-text>
+      </oj-form-layout>
+      <p><oj-bind-text value="[[labelMapper('oracle-directory-location-answer-message')]]"></oj-bind-text></p>
+    </div>
+  </oj-bind-if>
+
+  <div class="oj-panel">
+    <h6 class="wkt-subheading"><oj-bind-text value="[[labelMapper('build-tool-type-question')]]"></oj-bind-text></h6>
+    <oj-form-layout max-columns="2" direction="row">
+      <oj-select-single label-hint="[[labelMapper('build-tool-type-label')]]"
+                        value="{{project.settings.builderType.observable}}"
+                        data="{{builderTypesDP}}"
+                        help.instruction="[[labelMapper('build-tool-type-help')]]">
+      </oj-select-single>
+      <oj-input-text label-hint="[[getBuilderExecutableFilePathLabel()]]"
+                     value="{{project.settings.builderExecutableFilePath.observable}}"
+                     help.instruction="[[labelMapper('build-tool-help')]]">
+        <oj-button slot="end" display="icons" chroming="borderless" on-oj-action="[[chooseBuilder]]">
+          <span slot="endIcon" class="oj-ux-ico-file-text" role="img"></span>
+          <oj-bind-text value="[[getBuilderExecutableFilePathTooltip()]]"></oj-bind-text>
+        </oj-button>
+      </oj-input-text>
+    </oj-form-layout>
+    <p><oj-bind-text value="[[buildToolTypeAnswer]]"></oj-bind-text></p>
+  </div>
+</div>

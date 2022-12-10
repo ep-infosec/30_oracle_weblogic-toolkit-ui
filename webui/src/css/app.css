@@ -1,0 +1,762 @@
+/*
+ * Copyright (c) 2021, 2022, Oracle and/or its affiliates.
+ * Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
+ */
+.sendOffScreen {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+#globalBody {
+  height: 100vh;
+  display: flex;
+}
+
+/* inside globalBody, content can be app or dialog */
+.wkt-main-module {
+  height: 100%;
+  display: flex;
+  overflow: auto;
+  width:100%;
+}
+
+#pageContent {
+  width: 100%;
+}
+
+#navlistcontainer {
+  display: flex;
+  flex-direction: column;
+}
+
+#navlistcontainer .wkt-navigation-list {
+  flex: 1 0 auto;
+  min-width: 280px;
+  max-width: 280px;
+  width: 280px;
+}
+
+#navlistcontainer.collapsed .wkt-navigation-list {
+  min-width: auto;
+  max-width: none;
+  width: auto;
+}
+
+.collapseNavBlock {
+  padding: 1rem 1.5rem;
+  text-align: right;
+}
+
+#navlistcontainer.collapsed .collapseNavBlock {
+  padding: 1rem 0;
+  text-align: center;
+}
+
+.oj-navigationlist-depth-1 .oj-navigationlist-item-content {
+  padding-left: var(--oj-navigation-list-item-padding) !important;
+}
+
+/* this gets hidden in vertical flex layout */
+.oj-tabbar-element li {
+  box-sizing: border-box;
+}
+
+#wkt-container {
+  flex: 1 1 auto;
+  min-height: 1px;
+}
+
+/* container for right pane on every page */
+/* scroll if contents are too big */
+.wkt-right-pane {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  overflow: auto;
+}
+
+/* container for right pane above console, on every page */
+.wkt-main-pane {
+  flex: 1 1 100%;
+  overflow: auto;
+}
+
+/* collapsible console panel, on every page */
+
+.wkt-console-header {
+  box-sizing: border-box;
+  background-color: var(--oj-badge-bg-color);
+  color: var(--oj-badge-text-color);
+  flex: 0 0 auto;
+  padding: 0 8px;
+  font-size: 1em;
+  font-weight: 600;
+}
+
+.oj-collapsible .wkt-console-header.oj-collapsible-header .oj-collapsible-header-icon {
+  margin: 0;
+  padding: 2px 0;
+  color: var(--oj-badge-text-color);
+}
+
+.wkt-console-content {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  font-family: monospace;
+  height: 20vh;
+  overflow: auto;
+  padding: 8px 0;
+  white-space: pre;
+}
+
+.wkt-console-content span {
+  padding: 0 8px;
+}
+
+.wkt-console-content .consoleError {
+  color: red;
+  font-weight: bold;
+}
+
+.wkt-tab-bar, .wkt-tab-bar-nested {
+  flex: 0 0 auto;
+  margin: 0 10px;
+}
+
+.wkt-tab-bar-nested {
+  margin: 0 0 10px 0;
+}
+
+/* surround nested tabs and content area, limiting to container size */
+.wkt-nested-tab-frame {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* contains the properties / secrets and archive panes */
+.wkt-model-right {
+  display: flex;
+  width: 30%;
+  flex-direction: column;
+  min-height: 300px;
+  min-width: 40px;
+  border-left: 1px solid var(--oj-badge-bg-color);
+  box-sizing: border-box;
+}
+
+/* move the grab area down for this splitter to avoid interfering with properties scroll bar */
+.wkt-model-right .wkt-vertical-splitter {
+  margin: 0 0 -6px 0;
+}
+
+.wkt-model-archive {
+  background-color: var(--oj-collection-free-space-bg-color);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.wkt-archive-toolbar {
+  flex-wrap: nowrap;
+  padding-left: 4px;
+  padding-right: 4px;
+  box-sizing: border-box;
+}
+
+.wkt-archive-label {
+  flex: 1 1 auto;
+  min-width: 1px;
+  padding: 0 4px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.wkt-tree-view {
+  box-sizing: border-box;
+  min-height: 1px;
+  height: 100%;
+}
+
+/* container for model code or design content */
+.wkt-model-edit-content {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  /*padding-top: 10px;*/
+}
+
+/* container for model design view */
+.wkt-model-edit-design,
+.wkt-model-code-view {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.wkt-model-edit-design > a > img {
+  margin: 0 3px 0 0;
+  height: 24px;
+  width: 18px;
+}
+
+/* the ace editor pane */
+#model-editor {
+  width: 100%;
+  height: 100%;
+}
+
+/* override jet scrollbar styles to improve contrast,
+   show scrollbars always, not only in hover state. */
+#model-editor ::-webkit-scrollbar {
+  background: #232323;
+}
+
+#model-editor:hover ::-webkit-scrollbar-thumb {
+  background: #5a5a5a;
+}
+
+/* the ace editor pane */
+.wkt-model-editor-frame {
+  width: 70%;
+  min-width: 40px;
+  padding: 10px;
+  border-top: 1px solid var(--oj-collection-border-color);
+  box-sizing: border-box;
+}
+
+.wkt-model-properties-table {
+  height: 100%;
+  min-width: 1px;
+  width: 100%;
+  border-top: 1px solid var(--oj-collection-border-color);
+}
+
+/* containers for model archive and properties controls */
+.wkt-model-archive-frame, .wkt-model-properties-frame {
+  flex: 1 1 auto;
+  height: 50%;
+  min-height: 40px;
+}
+
+.wkt-model-archive-frame {
+  border-top: 1px solid var(--oj-badge-bg-color);
+  overflow: auto;
+  z-index: 2;
+}
+
+.wkt-env-vars-table, .wkt-domain-properties-table,
+.wkt-domain-clusters-table, .wkt-domain-secrets-table {
+  border: 1px solid var(--oj-collection-border-color);
+}
+
+.wkt-paths-table, .wkt-domain-node-selectors-table {
+  border: 1px solid var(--oj-collection-border-color);
+  width: 100%;
+}
+
+.wkt-domain-clusters-table,
+.wkt-domain-properties-table,
+.wkt-domain-secrets-table {
+  width: 100%;
+}
+
+.wkt-table-env-vars-cell, .wkt-table-path-cell, .wkt-table-env-vars-header, .wkt-table-path-header {
+  min-width: 400px;
+}
+
+/* readonly-hint should override hiding on no-focus */
+.wkt-readonly-hint {
+  display: block !important
+}
+
+/* over-qualify this to override rtl styles */
+.oj-table .oj-table-column-header-cell.wkt-icon-cell,
+.oj-table .oj-table-column-header-cell.wkt-table-add-header,
+.oj-table .oj-table-data-cell.wkt-table-delete-cell {
+  padding: 2px !important;
+  text-align: center;
+}
+
+/* general content for simple pages */
+
+/* includes the image tabs and content  */
+.wkt-content-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 400px;
+  min-width: 600px;
+}
+
+.wkt-content-top-bar {
+  display: flex;
+  align-items: center;
+}
+
+.wkt-content-top-bar.wkt-no-tabs {
+  padding: 7px 0;
+  align-items: flex-start;
+}
+
+.wkt-content-top-bar.wkt-no-tabs h6 {
+  margin: 3px 0 0 10px;
+  width: 100%;
+}
+
+.wkt-content-top-bar .wkt-tab-bar {
+  flex: 1 1 100%;
+  margin-bottom: 10px;
+}
+
+.wkt-content-top-bar .oj-button {
+  margin: 0 10px;
+}
+
+.wkt-content {
+  flex: 1 1 auto;
+  min-height: 1px;
+  margin: 10px;
+  overflow: auto;
+}
+
+.wkt-content-top-bar + .wkt-content {
+  margin-top: 0;
+}
+
+
+h6:first-child {
+  margin-top: 0;
+}
+
+.wkt-code-view {
+  border: 2px solid var(--oj-core-text-color-primary);
+  font-family: monospace;
+  height: 100%;
+  overflow: auto;
+  padding: 2px;
+}
+
+.wkt-dialog {
+  width: 500px;
+  height: 500px;
+}
+
+.wkt-busy-dialog {
+  width: 500px;
+  height: auto;
+}
+
+.wkt-busy-dialog .oj-dialog-title {
+  font-size: 1em;
+}
+
+.wkt-busy-dialog .oj-dialog-header {
+  padding: 2rem 2rem 0.75rem
+}
+
+.wkt-busy-body {
+  text-align: center;
+}
+
+.wkt-discover-dialog {
+  width: 500px;
+  height: auto;
+}
+
+.wkt-discover-result-dialog {
+  max-width: 1000px;
+  height: 85vh;
+  width: 85%;
+}
+
+.wkt-add-to-archive-dialog {
+  width: 600px;
+  height: auto;
+}
+
+.wkt-text-input-dialog {
+  width: 600px;
+  height: auto;
+}
+
+.wkt-user-settings-dialog {
+  width: 85%;
+  height: 85vh;
+}
+
+.wkt-route-edit-dialog {
+  width: 85%;
+  height: 85vh;
+}
+
+.wkt-cluster-edit-dialog {
+  width: 85%;
+  height: 85vh;
+}
+
+.wkt-app-update-dialog {
+  width: 600px;
+  height: auto;
+}
+
+.wkt-app-update-notes {
+  max-height: 200px;
+  overflow: auto;
+}
+
+.wkt-validation-error-dialog {
+  width: 75%;
+  height: auto;
+  max-height: 85vh;
+  max-width: 850px;
+}
+
+.wkt-inspect-grid-container {
+  display: grid;
+  grid-column-gap: 1em;
+  grid-auto-columns: min-content auto;
+}
+
+.wkt-inspect-grid-message {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.wkt-inspect-grid-title {
+  font-weight: bold;
+  margin-top: 0.75em;
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.wkt-inspect-grid-name {
+  margin-left: 1em;
+  grid-column-start: 1;
+  grid-column-end: 1;
+  white-space: nowrap;
+}
+
+.wkt-inspect-grid-value {
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+
+.wkt-inspect-dialog-content {
+  max-height: 50vh;
+  overflow: auto;
+}
+
+.wkt-macos-env-variables-dialog,
+.wkt-macos-path-directories-dialog {
+  width: 85%;
+  height: 85vh;
+}
+
+.wkt-center-text-in-frame {
+  vertical-align: center;
+  text-align: center;
+}
+
+/* typically the oj-panel on the code view tab */
+/* contains a platform selector and scrollable text area */
+.oj-panel.wkt-code-view-platform-frame {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0;
+}
+
+/* container for oj-tables with a button beside each */
+.wkt-table-button-grid {
+  display: grid;
+  grid-column-gap: 1em;
+  grid-row-gap: 1em;
+  grid-auto-columns: auto min-content;
+  margin-bottom: var(--oj-form-layout-margin-bottom);
+}
+
+.wkt-table-button-grid .oj-table {
+  grid-column-start: 1;
+  grid-column-end: 1;
+}
+
+.wkt-table-button-grid .oj-button {
+  grid-column-start: 2;
+  grid-column-end: 2;
+}
+
+/* some dialogs need 100% height / width body content */
+
+.wkt-fixed-body-dialog .oj-dialog-body,
+.wkt-fixed-body-dialog .oj-dialog-content,
+.wkt-fixed-body-dialog .oj-dialog-content > div {
+  width: 100%;
+  height: 100%;
+}
+
+.wkt-full-height {
+  height: 100%;
+  overflow: auto;
+}
+
+.wkt-macos-env-variables-dialog .oj-table {
+  width: 100%;
+  height: 100%;
+}
+
+.wkt-stacked-dialog-body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* the oj-switcher in the code view should use the remaining height */
+.wkt-code-view-switcher {
+  min-height: 1px;
+  height: 100%;
+}
+
+.wkt-design-view-switcher {
+  min-height: 1px;
+  height: 100%;
+}
+
+.wkt-wide-table {
+  width: 100%;
+}
+
+.wkt-row-label {
+  font-size: 75%;
+  font-weight: bold;
+}
+
+/* horizontal and vertical splitters */
+
+.wkt-horizontal-splitter, .wkt-vertical-splitter {
+  cursor: col-resize;
+  /*background-color: var(--oj-badge-bg-color);*/
+  width: 6px;
+  height: 100%;
+  flex: 0 0 auto;
+  margin: 0 -3px;
+
+  /* stay in front of table header row */
+  z-index: 3;
+
+  /* disable browser's default drag behavior */
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.wkt-vertical-splitter {
+  cursor: row-resize;
+  height: 6px;
+  margin: -3px 0;
+  width: 100%;
+}
+
+/* miscellaneous */
+
+h6.wkt-subheading {
+  font-size: 1em;
+}
+
+h6.wkt-panel-heading {
+  font-size: 1em;
+  margin-bottom: 0;
+}
+
+/* buttons beside an h6 header */
+.wkt-header-button-row {
+  display: flex;
+}
+
+.wkt-header-button-row .oj-button {
+  margin-bottom: -10px;
+}
+
+.wkt-header-button-row h6 {
+  flex: 1 1 auto;
+}
+
+/* no default scroll bar on html body */
+.oj-web-applayout-body {
+  overflow-y: auto;
+}
+
+.oj-panel {
+  margin-top: 0.5em;
+}
+
+.oj-collapsible-content > .oj-panel:first-child,
+.oj-panel.wkt-notop {
+  margin-top: 0;
+}
+
+.k8s-kubectl-instructions {
+  /*border: 2px solid var(--oj-core-border-color-selected);*/
+}
+
+#wktQuickStartDialog .oj-dialog-content,
+#wktQuickStartDialog .oj-dialog-content > div {
+  height: 100%;
+}
+
+.wkt-quickstart-body {
+  height: 100%;
+}
+
+.wkt-quickstart-filmstrip-panel {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0;
+}
+
+.wkt-quickstart-filmstrip {
+  flex: 1 1 auto;
+  padding-top: 10px;
+}
+
+.wkt-quickstart-filmstrip-module {
+  overflow: auto;
+  height: 100%;
+}
+
+.wkt-quickstart-filmstrip-item {
+  width: 100%;
+  height: 100%;
+}
+
+.wkt-quickstart-paging-control-container {
+  text-align: center;
+}
+
+.wkt-quickstart-paging-control {
+  display: inline-block;
+}
+
+.wkt-quickstart-page-column {
+  padding: 10px;
+}
+
+/* styles within the quickstart content area */
+
+.wkt-quickstart-with-image {
+  display: flex;
+}
+
+.wkt-quickstart-image {
+  flex: 0 1 auto;
+}
+
+.wkt-quickstart-image img {
+    padding-right: 16px;
+}
+
+.wkt-quickstart-image-icon img {
+    width: 50px;
+    padding-right: 16px;
+}
+
+.wkt-quickstart-text {
+  flex: 1 1 auto;
+}
+
+/* page-image has full-width image below text */
+.wkt-quickstart-with-page-image {
+  display: flex;
+  flex-direction: column;
+}
+
+.wkt-quickstart-page-image {
+  flex: 0 1 auto;
+}
+
+.wkt-quickstart-page-image img {
+  width:100%;
+}
+
+.wkt-quickstart-subsection-heading {
+  text-decoration-style: solid;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.wkt-button-row {
+  display: flex;
+  margin-bottom: 0.75em;
+}
+
+.validationErrorBlock {
+  margin-top: 1em;
+}
+
+.domainError .oj-text-field-readonly {
+  color: red !important;
+}
+
+.wkt-status-paragraph {
+  margin: 1rem 0 0 0;
+}
+
+.wkt-status-paragraph.domainError {
+  color:red;
+}
+
+.wkt-status-paragraph.preformat {
+  white-space: pre-wrap;
+}
+
+.wkt-dialog-content {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding: 1em;
+}
+
+.wkt-dialog-middle {
+  flex: 1 1 100%;
+}
+
+.wkt-dialog-footer {
+  padding: 1em 0 0 0;
+  text-align: end;
+}
+
+.wkt-dialog-footer .oj-button {
+  margin-left: 0.25em;
+}
+
+.wkt-network-try-block {
+  align-items: center;
+  display: flex;
+}
+
+.wkt-network-try-message {
+  padding-left: 0.75em;
+}
+
+.wkt-proceed {
+  font-weight: bold;
+}
+
+.wkt-warning {
+  color: red;
+  font-weight: bold;
+}
+
+.wkt-placeholder-text {
+  color: var(--oj-label-inside-edge-color);
+}

@@ -1,0 +1,58 @@
+<!--
+ Copyright (c) 2021, 2022, Oracle and/or its affiliates.
+ Licensed under The Universal Permissive License (UPL), Version 1.0 as shown at https://oss.oracle.com/licenses/upl/
+ -->
+<div id="modelPage" class="wkt-content-layout">
+  <div class="wkt-content-top-bar">
+    <oj-tab-bar class="oj-sm-condense oj-tabbar wkt-tab-bar"
+                selection="{{selectedItem}}"
+                data="[[dataProvider]]" edge="top" display="all">
+      <template slot="itemTemplate" data-oj-as="item">
+        <li :class="[[{'oj-disabled' : item.data.detail.disabled === 'true'}]]">
+          <a href="#">
+            <oj-bind-text value="[[item.data.detail.label]]"></oj-bind-text>
+          </a>
+        </li>
+      </template>
+    </oj-tab-bar>
+    <oj-bind-if test="[[inDesignView() === true]]">
+      <oj-input-text id="modelDesignSearchInput"
+                     disabled="[[disableSearch]]"
+                     on-value-changed="[[enterKeyPressedInSearchInput]]"
+                     label-hint="[[labelMapper('design-view-search-label')]]">
+        <oj-button
+                id="searchModelButton"
+                disabled="[[disableSearch]]"
+                slot="end"
+                display="icons"
+                chroming="borderless"
+                on-oj-action="[[searchModel]]">
+          <span slot="endIcon" class="oj-ux-ico-search" role="img"></span>
+          <oj-bind-text value="[[labelMapper('design-view-search-tooltip')]]"></oj-bind-text>
+        </oj-button>
+      </oj-input-text>
+    </oj-bind-if>
+
+    <oj-button id="validateModelButton"
+               disabled="[[disableValidate]]"
+               chroming="callToAction"
+               on-oj-action="[[validateModel]]"
+               :title="[[labelMapper('hints-validateModel')]]">
+          <span>
+            <oj-bind-text value="[[labelMapper('button-validateModel')]]"></oj-bind-text>
+          </span>
+    </oj-button>
+    <oj-button id="prepareModelButton"
+               disabled="[[disablePrepare]]"
+               chroming="callToAction"
+               on-oj-action="[[prepareModel]]"
+               :title="[[labelMapper('hints-prepareModel')]]">
+          <span>
+            <oj-bind-text value="[[labelMapper('button-prepareModel')]]"></oj-bind-text>
+          </span>
+    </oj-button>
+  </div>
+
+  <oj-module role="main" class="wkt-model-edit-content" config="[[moduleAdapter.koObservableConfig]]">
+  </oj-module>
+</div>

@@ -1,0 +1,37 @@
+<!--
+ Copyright (c) 2022, Oracle and/or its affiliates.
+ Licensed under The Universal Permissive License (UPL), Version 1.0 as shown at https://oss.oracle.com/licenses/upl/
+ -->
+<oj-dialog id="wktMacosPathDirectoriesDialog" class="wkt-macos-path-directories-dialog wkt-fixed-body-dialog" initial-visibility="hide">
+  <div slot="header">
+    <span class="oj-dialog-title"><oj-bind-text value="[[labelMapper('title')]]"></oj-bind-text></span>
+  </div>
+
+  <div slot="body">
+    <div class="oj-panel wkt-notop wkt-full-height">
+      <oj-table id="macos-path-variable-table"
+                class="wkt-paths-table"
+                aria-label="[[labelMapper('table-aria-label')]]"
+                data="[[pathDirectoriesDataProvider]]"
+                display="grid"
+                horizontal-grid-visible="enabled"
+                vertical-grid-visible="enabled"
+                edit-mode="none"
+                columns='[[pathDirectoriesColumnData]]'>
+        <template slot="rowTemplate" data-oj-as="row">
+          <tr>
+            <td>
+              <oj-bind-text value="[[row.data.value]]"></oj-bind-text>
+            </td>
+          </tr>
+        </template>
+      </oj-table>
+    </div>
+  </div>
+
+  <div slot="footer">
+    <oj-button id="okButton" on-oj-action="[[dismissDialog]]">
+      <span><oj-bind-text value="[[i18n.t('dialog-button-ok')]]"></oj-bind-text></span>
+    </oj-button>
+  </div>
+</oj-dialog>
